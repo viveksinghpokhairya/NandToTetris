@@ -42,4 +42,38 @@ CHIP ALU {
 
     PARTS:
     //// Replace this comment with your code.
+
+    //not x and zero x part
+    Mux16(a = x, b = false, sel = zx, out = zxOut);
+    Not16(in=zxOut, out=Notx);
+    Mux16(a = zxOut, b = Notx, sel = nx, out = nxOut);
+
+    //not y and zero y part
+    Mux16(a = y, b = false, sel = zy, out = zyOut);
+    Not16(in=zyOut, out=Noty);
+    Mux16(a = zyOut, b = Noty, sel = ny, out = nyOut);  
+
+    //function operation x + y and x & y
+    Add16(a=nxOut, b=nyOut, out=xyAddition);
+    And16(a=nxOut, b=nyOut, out=xyAnd);
+    Mux16(a=xyAnd, b=xyAddition, sel=f, out=finalResult);
+    
+
+    // negate the output
+    Not16(in=finalResult, out=notFinalResult);
+    Mux16(a=finalResult, b=notFinalResult, sel=no, 
+          out=out,            // 1. Sends the final 16-bit answer to the ALU output pin
+          out[0..7]=lowBits,  // 2. Slices the lower 8 bits into a temporary wire
+          out[8..15]=highBits, // 3. Slices the upper 8 bits into a temporary wire
+          out[15]=ng
+    );
+    
+    // Check the bottom half
+    Or8Way(in=lowBits, out=anyLow);
+    // Check the top half
+    Or8Way(in=highBits, out=anyHigh);
+    // Combine them: is ANY bit in the entire 16-bit bus equal to 1?
+    Or(a=anyLow, b=anyHigh, out=anyBitSet);
+    // If NO bits were set, then zr = 1 (the number is zero!)
+    Not(in=anyBitSet, out=zr);   
 }
