@@ -219,6 +219,7 @@ The value can represent:
 - a ROM address
 - a symbol
 
+---
 
 # The C-Instruction: Symbolic & Binary
 
