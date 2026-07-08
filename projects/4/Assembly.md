@@ -270,7 +270,6 @@ Structure:
 | ddd | Destination |
 | jjj | Jump Condition |
 
----
 
 b. The `a` Bit
 
@@ -285,8 +284,6 @@ or
 ```
 Memory (M)
 ```
-
----
 
 c. Destination Bits
 
@@ -306,7 +303,6 @@ D=A
 
 stores into D.
 
----
 
 ```asm
 MD=D+1
@@ -319,7 +315,6 @@ stores into
 
 at the same time.
 
----
 
 d. Jump Bits
 
@@ -347,8 +342,6 @@ Meaning:
 ```
 Jump to ROM address 29
 ```
-
----
 
 Example:
 
