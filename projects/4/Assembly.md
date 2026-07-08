@@ -59,6 +59,8 @@ Although it is much simpler than modern CPUs, it demonstrates all the essential 
 - Memory
 - Registers
 - Instruction
+    - A instruction
+    - C instruction
 - Machine Language
 - Assembly Language
 - Program Flow
@@ -134,17 +136,13 @@ The **D register** is simply temporary storage inside the CPU.
 
 Example:
 
-```asm
-D=5
-```
 
-means:
+| Example | Means |
+|-------|----------|
+| D=5 | D now contains 5 |
 
-```
-D now contains 5
-```
 
----
+
 
 ## A Register
 
@@ -152,15 +150,10 @@ The **A register** stores an address.
 
 Example:
 
-```asm
-@100
-```
+| Example | Means |
+|-------|----------|
+| @100 | A = 100 |
 
-After executing:
-
-```
-A = 100
-```
 
 The CPU now points to:
 
@@ -201,29 +194,23 @@ M automatically refers to a different RAM location.
 
 ---
 
-# The A-Instruction
+# The A-Instruction: Symbolic & Binary
 
 The A-instruction loads a value into the A register.
 
-General form:
+Symbolic form:
 
-```asm
-@value
-```
+| Syntax | Practical |
+|-------|----------|
+| @Value | @21 |
 
-Examples:
 
-```asm
-@17
-```
+Binary form:
+In Binary form A-instruction begins with '0'
 
-```asm
-@100
-```
-
-```asm
-@sum
-```
+| Syntax | Pracitcal |
+|-------|----------|
+| 0Value | 0000000000010101 |
 
 The value can represent:
 
@@ -232,33 +219,8 @@ The value can represent:
 - a ROM address
 - a symbol
 
----
 
-## Binary Format
-
-Every A-instruction begins with:
-
-```
-0
-```
-
-followed by a 15-bit value.
-
-Example:
-
-```asm
-@5
-```
-
-becomes
-
-```
-0000000000000101
-```
-
----
-
-# The C-Instruction
+# The C-Instruction: Symbolic & Binary
 
 The C-instruction performs computation.
 
