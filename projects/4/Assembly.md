@@ -198,14 +198,14 @@ M automatically refers to a different RAM location.
 
 The A-instruction loads a value into the A register.
 
-Symbolic form:
+1. Symbolic form:
 
 | Syntax | Practical |
 |-------|----------|
 | @Value | @21 |
 
 
-Binary form:
+2. Binary form:
 In Binary form A-instruction begins with '0'
 
 | Syntax | Pracitcal |
@@ -223,8 +223,13 @@ The value can represent:
 # The C-Instruction: Symbolic & Binary
 
 The C-instruction performs computation.
+A C-instruction can perform three operations simultaneously:
 
-General form:
+a. Compute something
+b. Store the result
+c. Jump somewhere
+
+1. General form:
 
 ```text
 dest = comp ; jump
@@ -244,17 +249,9 @@ M=D+1
 0;JMP
 ```
 
-A C-instruction can perform three operations simultaneously:
+2. Binary form:
 
-1. Compute something
-2. Store the result
-3. Jump somewhere
-
----
-
-# Binary Format of C-Instruction
-
-Every C-instruction starts with:
+a. Every C-instruction starts with:
 
 ```
 111
@@ -275,7 +272,7 @@ Structure:
 
 ---
 
-## The `a` Bit
+b. The `a` Bit
 
 Determines whether the ALU uses:
 
@@ -291,7 +288,7 @@ Memory (M)
 
 ---
 
-## Destination Bits
+c. Destination Bits
 
 Three bits correspond to:
 
@@ -324,7 +321,7 @@ at the same time.
 
 ---
 
-## Jump Bits
+d. Jump Bits
 
 Jump instructions include:
 
