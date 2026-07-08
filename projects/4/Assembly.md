@@ -1,6 +1,4 @@
-# Hack Computer Architecture & Assembly Language Notes
-
-> A beginner-friendly guide to understanding the Hack Computer from the Nand2Tetris course.
+# Assembly Language Notes
 
 ---
 
@@ -28,6 +26,16 @@
 
 **Machine language is the lowest-level language that a CPU can execute directly. It is defined by the CPU's Instruction Set Architecture (ISA), which is designed alongside the hardware. Assembly language is a human-readable representation of machine language, where each assembly instruction typically maps to one machine instruction. High-level languages such as C, C++, and Rust are compiled into machine language (sometimes through assembly as an intermediate step). Different CPU architectures, such as x86-64 and ARM64, have different machine languages because they define different ISAs. However, multiple processors can implement the same ISA—for example, both Intel and AMD processors understand the x86-64 machine language, even though their internal hardware implementations differ.**
 
+Super Simplification:
+
+Think of the CPU as a person who understands only one native language.
+
+- **Machine language** is the CPU's native language. It consists of binary instructions (0s and 1s) that the CPU can execute directly.
+- **Assembly language** is like writing the same language using easy-to-read words instead of binary numbers. An **assembler** acts as a translator, converting these readable instructions into machine language.
+- **High-level languages** (such as C, C++, and Rust) are like speaking in normal human language. They let programmers express ideas more naturally without worrying about the hardware. A **compiler** translates these programs into the CPU's machine language.
+
+Every CPU architecture has its own native language, called its **Instruction Set Architecture (ISA)**. For example, **x86-64** and **ARM64** are different ISAs, so they speak different machine languages. However, different CPU manufacturers can build processors that speak the same language. For example, both **Intel** and **AMD** processors understand the **x86-64** machine language, even though their internal hardware designs are different.
+
 Initially, programmers had only two practical ways to write programs: directly in **machine language** (binary instructions) or in **assembly language**, which is a human-readable representation of machine language. Writing machine language by hand was extremely difficult, error-prone, and time-consuming, so assembly language was introduced. An **assembler** translates each assembly instruction into its corresponding machine instruction, making programming much easier while still giving programmers direct control over the hardware.
 
 As software became more complex, **high-level languages** such as C, C++, and Java were introduced. These languages provide a higher level of abstraction, allowing programmers to focus on solving problems rather than managing hardware details. A **compiler** translates high-level code into machine language. Conceptually, this translation can be viewed as:
@@ -41,6 +49,7 @@ Machine Language
 ```
 
 Although many modern compilers generate machine code directly without producing assembly code as an intermediate file, the above model is useful for understanding the relationship between these layers.
+This Machine Code and assembly language relation will be discussed in the 5th Unit.
 
 The **Hack Computer** is a simple **16-bit computer architecture** designed for learning how computers work from the hardware level all the way up to software.
 
@@ -49,12 +58,13 @@ Although it is much simpler than modern CPUs, it demonstrates all the essential 
 - CPU
 - Memory
 - Registers
+- Instruction
 - Machine Language
 - Assembly Language
 - Program Flow
 - Input/Output
 
-The CPU communicates with memory using only a few registers, making the architecture extremely simple yet surprisingly powerful.
+The CPU communicates with memory using only a few registers(A, D and M), making the architecture extremely simple yet surprisingly powerful.
 
 ---
 
