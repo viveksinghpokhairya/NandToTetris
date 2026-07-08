@@ -26,6 +26,8 @@
 
 # Introduction
 
+**Machine language is the lowest-level language that a CPU can execute directly. It is defined by the CPU's Instruction Set Architecture (ISA), which is designed alongside the hardware. Assembly language is a human-readable representation of machine language, where each assembly instruction typically maps to one machine instruction. High-level languages such as C, C++, and Rust are compiled into machine language (sometimes through assembly as an intermediate step). Different CPU architectures, such as x86-64 and ARM64, have different machine languages because they define different ISAs. However, multiple processors can implement the same ISA—for example, both Intel and AMD processors understand the x86-64 machine language, even though their internal hardware implementations differ.**
+
 The **Hack Computer** is a simple **16-bit computer architecture** designed for learning how computers work from the hardware level all the way up to software.
 
 Although it is much simpler than modern CPUs, it demonstrates all the essential ideas:
