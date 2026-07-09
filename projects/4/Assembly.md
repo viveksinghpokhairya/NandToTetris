@@ -393,8 +393,6 @@ M=D+1
 0;JMP
 ```
 
----
-
 ## Binary Format
 
 Every C-instruction begins with the three bits:
@@ -417,7 +415,6 @@ The remaining 13 bits are divided into three fields:
 | **dest** | Specifies where the result should be stored. |
 | **jump** | Specifies whether the CPU should jump to another instruction. |
 
----
 
 ## The `comp` Field
 
@@ -479,7 +476,6 @@ D+M
 
 uses the value stored in **RAM[A]**.
 
----
 
 ## The `dest` Field
 
@@ -504,7 +500,6 @@ D=A
 
 Stores the value of A into D.
 
----
 
 ```asm
 M=D+1
@@ -512,15 +507,12 @@ M=D+1
 
 Stores `D+1` into RAM[A].
 
----
 
 ```asm
 MD=D-1
 ```
 
 Stores `D-1` into both the D register and RAM[A].
-
----
 
 ## The `jump` Field
 
@@ -547,15 +539,12 @@ D;JGT
 
 Jump to the address stored in the **A register** if `D > 0`.
 
----
-
 ```asm
 0;JMP
 ```
 
 Always jump to the address stored in the **A register**.
 
----
 
 ## Putting Everything Together
 
@@ -573,7 +562,6 @@ It performs three operations in a single instruction:
 
 This ability to **compute**, **store**, and **change the program flow** in a single instruction makes the C-instruction the most powerful instruction in the Hack assembly language.
 
----
 
 # Moving Data Around
 
