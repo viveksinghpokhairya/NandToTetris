@@ -1,41 +1,3 @@
-## How the `comp` Field Maps to the ALU
-
-The `comp` field of a C-instruction is **not an arbitrary binary code**. Each bit directly controls one of the ALU's control inputs.
-
-Recall the C-instruction format:
-
-```
-111 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
-```
-
-The seven computation bits map directly to the ALU as follows:
-
-| C-Instruction Bit | ALU Control Bit | Purpose |
-|-------------------|-----------------|---------|
-| `a` | Input Select | `0` → Use **A**, `1` → Use **M (RAM[A])** |
-| `c1` | `zx` | Zero the **x** input (D) |
-| `c2` | `nx` | Negate the **x** input |
-| `c3` | `zy` | Zero the **y** input (A or M) |
-| `c4` | `ny` | Negate the **y** input |
-| `c5` | `f` | `1` → Perform Addition (`x+y`), `0` → Perform Bitwise AND (`x&y`) |
-| `c6` | `no` | Negate the ALU output |
-
-So the CPU literally performs this connection:
-
-```
-        C-Instruction
-
-      a c1 c2 c3 c4 c5 c6
-      │ │  │  │  │  │  │
-      │ │  │  │  │  │  │
-      ▼ ▼  ▼  ▼  ▼  ▼  ▼
-      a zx nx zy ny  f no
-              ALU
-```
-
-No decoding or lookup is required—the bits are wired directly to the ALU's control inputs.
-
----
 ## Relationship Between the ALU Truth Table and the `comp` Field
 
 The six control bits of the ALU (`zx`, `nx`, `zy`, `ny`, `f`, `no`) are **identical** to the six computation bits (`c1`–`c6`) of the Hack C-instruction. The only additional bit is **`a`**, which selects whether the ALU's second input (`y`) comes from the **A register** or **Memory (M)**.
@@ -78,6 +40,45 @@ The six control bits of the ALU (`zx`, `nx`, `zy`, `ny`, `f`, `no`) are **identi
 >   - `a = 1` → `y = M (RAM[A])`
 >
 > Therefore, the ALU truth table is reused directly by the CPU. The CPU simply prepends one extra bit (`a`) to choose whether the second ALU input comes from the **A register** or **Memory (M)**.
+
+---
+
+## How the `comp` Field Maps to the ALU
+
+The `comp` field of a C-instruction is **not an arbitrary binary code**. Each bit directly controls one of the ALU's control inputs.
+
+Recall the C-instruction format:
+
+```
+111 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
+```
+
+The seven computation bits map directly to the ALU as follows:
+
+| C-Instruction Bit | ALU Control Bit | Purpose |
+|-------------------|-----------------|---------|
+| `a` | Input Select | `0` → Use **A**, `1` → Use **M (RAM[A])** |
+| `c1` | `zx` | Zero the **x** input (D) |
+| `c2` | `nx` | Negate the **x** input |
+| `c3` | `zy` | Zero the **y** input (A or M) |
+| `c4` | `ny` | Negate the **y** input |
+| `c5` | `f` | `1` → Perform Addition (`x+y`), `0` → Perform Bitwise AND (`x&y`) |
+| `c6` | `no` | Negate the ALU output |
+
+So the CPU literally performs this connection:
+
+```
+        C-Instruction
+
+      a c1 c2 c3 c4 c5 c6
+      │ │  │  │  │  │  │
+      │ │  │  │  │  │  │
+      ▼ ▼  ▼  ▼  ▼  ▼  ▼
+      a zx nx zy ny  f no
+              ALU
+```
+
+No decoding or lookup is required—the bits are wired directly to the ALU's control inputs.
 
 ---
 
