@@ -422,36 +422,36 @@ The **comp** field tells the ALU what operation to perform.
 
 Some common computations are:
 
-| Computation | Meaning |
-|-------------|---------|
-| `0` | Constant 0 |
-| `1` | Constant 1 |
-| `-1` | Constant -1 |
-| `D` | Value in the D register |
-| `A` | Value in the A register |
-| `M` | Value stored at RAM[A] |
-| `!D` | Bitwise NOT of D |
-| `!A` | Bitwise NOT of A |
-| `!M` | Bitwise NOT of M |
-| `-D` | Negative of D |
-| `-A` | Negative of A |
-| `-M` | Negative of M |
-| `D+1` | Increment D |
-| `A+1` | Increment A |
-| `M+1` | Increment M |
-| `D-1` | Decrement D |
-| `A-1` | Decrement A |
-| `M-1` | Decrement M |
-| `D+A` | Add D and A |
-| `D+M` | Add D and M |
-| `D-A` | Subtract A from D |
-| `D-M` | Subtract M from D |
-| `A-D` | Subtract D from A |
-| `M-D` | Subtract D from M |
-| `D&A` | Bitwise AND |
-| `D&M` | Bitwise AND |
-| `D\|A` | Bitwise OR |
-| `D\|M` | Bitwise OR |
+| Computation | Binary (`a c1 c2 c3 c4 c5 c6`) | Description |
+|-------------|-------------------------------|-------------|
+| `0` | `0101010` | Outputs the constant **0** |
+| `1` | `0111111` | Outputs the constant **1** |
+| `-1` | `0111010` | Outputs the constant **-1** |
+| `D` | `0001100` | Returns the value stored in the **D register** |
+| `A` | `0110000` | Returns the value stored in the **A register** |
+| `M` | `1110000` | Returns the value stored in **RAM[A]** |
+| `!D` | `0001101` | Performs a bitwise NOT on **D** |
+| `!A` | `0110001` | Performs a bitwise NOT on **A** |
+| `!M` | `1110001` | Performs a bitwise NOT on **M (RAM[A])** |
+| `-D` | `0001111` | Computes the negative of **D** |
+| `-A` | `0110011` | Computes the negative of **A** |
+| `-M` | `1110011` | Computes the negative of **M (RAM[A])** |
+| `D+1` | `0011111` | Increments **D** by 1 |
+| `A+1` | `0110111` | Increments **A** by 1 |
+| `M+1` | `1110111` | Increments **M (RAM[A])** by 1 |
+| `D-1` | `0001110` | Decrements **D** by 1 |
+| `A-1` | `0110010` | Decrements **A** by 1 |
+| `M-1` | `1110010` | Decrements **M (RAM[A])** by 1 |
+| `D+A` | `0000010` | Adds **D** and **A** |
+| `D+M` | `1000010` | Adds **D** and **M (RAM[A])** |
+| `D-A` | `0010011` | Subtracts **A** from **D** |
+| `D-M` | `1010011` | Subtracts **M (RAM[A])** from **D** |
+| `A-D` | `0000111` | Subtracts **D** from **A** |
+| `M-D` | `1000111` | Subtracts **D** from **M (RAM[A])** |
+| `D&A` | `0000000` | Performs a bitwise **AND** between **D** and **A** |
+| `D&M` | `1000000` | Performs a bitwise **AND** between **D** and **M (RAM[A])** |
+| `D\|A` | `0010101` | Performs a bitwise **OR** between **D** and **A** |
+| `D\|M` | `1010101` | Performs a bitwise **OR** between **D** and **M (RAM[A])** |
 
 ### Understanding the `a` Bit
 
@@ -481,16 +481,16 @@ uses the value stored in **RAM[A]**.
 
 The **dest** field tells the CPU where to store the computed result.
 
-| Destination | Result Stored In |
-|-------------|------------------|
-| *(empty)* | Result is discarded |
-| `M` | RAM[A] |
-| `D` | D register |
-| `MD` | D register and RAM[A] |
-| `A` | A register |
-| `AM` | A register and RAM[A] |
-| `AD` | A register and D register |
-| `AMD` | A register, D register, and RAM[A] |
+| Destination (`dest`) | Binary (`ddd`) | Description |
+|----------------------|----------------|-------------|
+| `null` | `000` | The computed value is **not stored** anywhere. |
+| `M` | `001` | Store the computed value in **RAM[A]**. |
+| `D` | `010` | Store the computed value in the **D register**. |
+| `MD` | `011` | Store the computed value in both the **D register** and **RAM[A]**. |
+| `A` | `100` | Store the computed value in the **A register**. |
+| `AM` | `101` | Store the computed value in both the **A register** and **RAM[A]**. |
+| `AD` | `110` | Store the computed value in both the **A register** and **D register**. |
+| `AMD` | `111` | Store the computed value in the **A register**, **D register**, and **RAM[A]**. |
 
 Examples:
 
@@ -520,16 +520,16 @@ Normally, the CPU executes instructions one after another.
 
 The **jump** field allows the CPU to change the execution flow based on the result of the computation.
 
-| Jump | Condition |
-|------|-----------|
-| *(empty)* | No jump |
-| `JGT` | Jump if result > 0 |
-| `JEQ` | Jump if result = 0 |
-| `JGE` | Jump if result ≥ 0 |
-| `JLT` | Jump if result < 0 |
-| `JNE` | Jump if result ≠ 0 |
-| `JLE` | Jump if result ≤ 0 |
-| `JMP` | Always jump |
+| Jump (`jump`) | Binary (`jjj`) | Description |
+|---------------|----------------|-------------|
+| `null` | `000` | Continue executing the next instruction (no jump). |
+| `JGT` | `001` | Jump to the address stored in the **A register** if the computation result is **greater than 0** (`comp > 0`). |
+| `JEQ` | `010` | Jump to the address stored in the **A register** if the computation result is **equal to 0** (`comp = 0`). |
+| `JGE` | `011` | Jump to the address stored in the **A register** if the computation result is **greater than or equal to 0** (`comp ≥ 0`). |
+| `JLT` | `100` | Jump to the address stored in the **A register** if the computation result is **less than 0** (`comp < 0`). |
+| `JNE` | `101` | Jump to the address stored in the **A register** if the computation result is **not equal to 0** (`comp ≠ 0`). |
+| `JLE` | `110` | Jump to the address stored in the **A register** if the computation result is **less than or equal to 0** (`comp ≤ 0`). |
+| `JMP` | `111` | Unconditionally jump to the address stored in the **A register**, regardless of the computation result. |
 
 Examples:
 
