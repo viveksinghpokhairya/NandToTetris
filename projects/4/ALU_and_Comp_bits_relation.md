@@ -109,7 +109,7 @@ D + A
 
 ---
 
-## Example 2 — `D&M`
+## Example 2 — `D+M`
 
 From the computation table:
 
