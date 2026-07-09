@@ -361,6 +361,218 @@ jump to instruction 52
 
 Otherwise continue normally.
 
+
+
+## C-Instruction Format
+
+The **C-instruction** is responsible for performing computations, storing results, and controlling the program flow. Unlike an A-instruction, which only loads a value into the **A register**, a single C-instruction can perform up to **three operations at once**:
+
+1. Compute a value.
+2. Store the computed value.
+3. Optionally jump to another instruction.
+
+The general syntax is:
+
+```asm
+dest = comp ; jump
+```
+
+Both `dest` and `jump` are optional, but the **`comp` field is mandatory**.
+
+Examples:
+
+```asm
+D=A
+```
+
+```asm
+M=D+1
+```
+
+```asm
+0;JMP
+```
+
+---
+
+## Binary Format
+
+Every C-instruction begins with the three bits:
+
+```
+111
+```
+
+The remaining 13 bits are divided into three fields:
+
+```
+111 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
+```
+
+| Field | Purpose |
+|--------|----------|
+| **111** | Identifies the instruction as a C-instruction. |
+| **a** | Selects whether the computation uses the **A register** or **Memory (M)**. |
+| **comp** | Specifies the computation the ALU should perform. |
+| **dest** | Specifies where the result should be stored. |
+| **jump** | Specifies whether the CPU should jump to another instruction. |
+
+---
+
+## The `comp` Field
+
+The **comp** field tells the ALU what operation to perform.
+
+Some common computations are:
+
+| Computation | Meaning |
+|-------------|---------|
+| `0` | Constant 0 |
+| `1` | Constant 1 |
+| `-1` | Constant -1 |
+| `D` | Value in the D register |
+| `A` | Value in the A register |
+| `M` | Value stored at RAM[A] |
+| `!D` | Bitwise NOT of D |
+| `!A` | Bitwise NOT of A |
+| `!M` | Bitwise NOT of M |
+| `-D` | Negative of D |
+| `-A` | Negative of A |
+| `-M` | Negative of M |
+| `D+1` | Increment D |
+| `A+1` | Increment A |
+| `M+1` | Increment M |
+| `D-1` | Decrement D |
+| `A-1` | Decrement A |
+| `M-1` | Decrement M |
+| `D+A` | Add D and A |
+| `D+M` | Add D and M |
+| `D-A` | Subtract A from D |
+| `D-M` | Subtract M from D |
+| `A-D` | Subtract D from A |
+| `M-D` | Subtract D from M |
+| `D&A` | Bitwise AND |
+| `D&M` | Bitwise AND |
+| `D\|A` | Bitwise OR |
+| `D\|M` | Bitwise OR |
+
+### Understanding the `a` Bit
+
+The **a bit** determines where the ALU gets its second operand:
+
+- **a = 0** → use the **A register**
+- **a = 1** → use **M**, which represents `RAM[A]`
+
+For example:
+
+```asm
+D+A
+```
+
+uses the value stored in the **A register**.
+
+Whereas
+
+```asm
+D+M
+```
+
+uses the value stored in **RAM[A]**.
+
+---
+
+## The `dest` Field
+
+The **dest** field tells the CPU where to store the computed result.
+
+| Destination | Result Stored In |
+|-------------|------------------|
+| *(empty)* | Result is discarded |
+| `M` | RAM[A] |
+| `D` | D register |
+| `MD` | D register and RAM[A] |
+| `A` | A register |
+| `AM` | A register and RAM[A] |
+| `AD` | A register and D register |
+| `AMD` | A register, D register, and RAM[A] |
+
+Examples:
+
+```asm
+D=A
+```
+
+Stores the value of A into D.
+
+---
+
+```asm
+M=D+1
+```
+
+Stores `D+1` into RAM[A].
+
+---
+
+```asm
+MD=D-1
+```
+
+Stores `D-1` into both the D register and RAM[A].
+
+---
+
+## The `jump` Field
+
+Normally, the CPU executes instructions one after another.
+
+The **jump** field allows the CPU to change the execution flow based on the result of the computation.
+
+| Jump | Condition |
+|------|-----------|
+| *(empty)* | No jump |
+| `JGT` | Jump if result > 0 |
+| `JEQ` | Jump if result = 0 |
+| `JGE` | Jump if result ≥ 0 |
+| `JLT` | Jump if result < 0 |
+| `JNE` | Jump if result ≠ 0 |
+| `JLE` | Jump if result ≤ 0 |
+| `JMP` | Always jump |
+
+Examples:
+
+```asm
+D;JGT
+```
+
+Jump to the address stored in the **A register** if `D > 0`.
+
+---
+
+```asm
+0;JMP
+```
+
+Always jump to the address stored in the **A register**.
+
+---
+
+## Putting Everything Together
+
+Consider the instruction:
+
+```asm
+MD=D+1;JGT
+```
+
+It performs three operations in a single instruction:
+
+1. Compute `D + 1`.
+2. Store the result in both **D** and **RAM[A]**.
+3. If the computed result is greater than zero, jump to the instruction whose address is stored in the **A register**.
+
+This ability to **compute**, **store**, and **change the program flow** in a single instruction makes the C-instruction the most powerful instruction in the Hack assembly language.
+
 ---
 
 # Moving Data Around
