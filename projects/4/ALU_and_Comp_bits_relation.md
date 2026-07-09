@@ -36,6 +36,50 @@ So the CPU literally performs this connection:
 No decoding or lookup is required—the bits are wired directly to the ALU's control inputs.
 
 ---
+## Relationship Between the ALU Truth Table and the `comp` Field
+
+The six control bits of the ALU (`zx`, `nx`, `zy`, `ny`, `f`, `no`) are **identical** to the six computation bits (`c1`–`c6`) of the Hack C-instruction. The only additional bit is **`a`**, which selects whether the ALU's second input (`y`) comes from the **A register** or **Memory (M)**.
+
+| Computation | `comp` Bits (`a c1 c2 c3 c4 c5 c6`) | ALU Control Bits (`zx nx zy ny f no`) | ALU Output |
+|-------------|--------------------------------------|----------------------------------------|------------|
+| `0` | `0 101010` | `101010` | `0` |
+| `1` | `0 111111` | `111111` | `1` |
+| `-1` | `0 111010` | `111010` | `-1` |
+| `D` | `0 001100` | `001100` | `x` |
+| `A` | `0 110000` | `110000` | `y` |
+| `M` | `1 110000` | `110000` | `y` |
+| `!D` | `0 001101` | `001101` | `!x` |
+| `!A` | `0 110001` | `110001` | `!y` |
+| `!M` | `1 110001` | `110001` | `!y` |
+| `-D` | `0 001111` | `001111` | `-x` |
+| `-A` | `0 110011` | `110011` | `-y` |
+| `-M` | `1 110011` | `110011` | `-y` |
+| `D+1` | `0 011111` | `011111` | `x+1` |
+| `A+1` | `0 110111` | `110111` | `y+1` |
+| `M+1` | `1 110111` | `110111` | `y+1` |
+| `D-1` | `0 001110` | `001110` | `x-1` |
+| `A-1` | `0 110010` | `110010` | `y-1` |
+| `M-1` | `1 110010` | `110010` | `y-1` |
+| `D+A` | `0 000010` | `000010` | `x+y` |
+| `D+M` | `1 000010` | `000010` | `x+y` |
+| `D-A` | `0 010011` | `010011` | `x-y` |
+| `D-M` | `1 010011` | `010011` | `x-y` |
+| `A-D` | `0 000111` | `000111` | `y-x` |
+| `M-D` | `1 000111` | `000111` | `y-x` |
+| `D&A` | `0 000000` | `000000` | `x&y` |
+| `D&M` | `1 000000` | `000000` | `x&y` |
+| `D\|A` | `0 010101` | `010101` | `x\|y` |
+| `D\|M` | `1 010101` | `010101` | `x\|y` |
+
+> **Note:**  
+> - In the ALU truth table, **`x` always represents the D register**.  
+> - **`y` represents the second ALU input**. The `a` bit decides what `y` is:
+>   - `a = 0` → `y = A`
+>   - `a = 1` → `y = M (RAM[A])`
+>
+> Therefore, the ALU truth table is reused directly by the CPU. The CPU simply prepends one extra bit (`a`) to choose whether the second ALU input comes from the **A register** or **Memory (M)**.
+
+---
 
 ## Example 1 — `D+A`
 
