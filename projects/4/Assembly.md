@@ -419,6 +419,7 @@ The remaining 13 bits are divided into three fields:
 ## The `comp` Field
 
 The **comp** field tells the ALU what operation to perform.
+**ALU and the Comp filed are related to each other check the ALU_and_Comp_bits_relation.md file**
 
 Some common computations are:
 
