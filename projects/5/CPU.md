@@ -1,20 +1,38 @@
-
-![alt text](ComputerArchitecture.png)
-
 ````markdown
+# Computer Architecture
+
+This project explains the basic architecture of a computer, including **Memory**, **CPU**, and **Input/Output (I/O)**. These three components work together to execute every program.
+
+---
+
+## Computer Architecture
+
+<p align="center">
+  <img src="ComputerArchitecture.png" alt="Computer Architecture" width="700"/>
+</p>
+
+The architecture consists of three major components:
+
+- **Memory** – Stores data and program instructions.
+- **CPU** – Processes instructions and performs computations.
+- **Input/Output (I/O)** – Allows the computer to communicate with external devices.
+
+---
+
 # Memory
 
-Memory is one of the most important components of a computer. It stores everything the CPU needs to execute a program, including both the program's instructions and the data those instructions operate on.
+Memory stores everything the CPU needs to execute a program, including both **instructions** and **data**.
 
 ---
 
 ## Physical View of Memory
 
-From the hardware's perspective, memory is simply a long sequence of fixed-size storage locations called **memory registers**.
+Physically, memory is a long sequence of fixed-size storage locations called **memory registers**.
 
 Each register has:
-- A **unique address** (its location)
-- A **value** (the data stored inside it)
+
+- A **unique address**
+- A **stored value**
 
 ```
 Address      Value
@@ -23,11 +41,10 @@ Address      Value
 1            ...
 2            ...
 3            ...
-4            ...
 ...
 ```
 
-Since every register has a unique address, the CPU can directly access any register by providing its address.
+The CPU accesses any register by providing its **address**.
 
 This process is called **addressing**.
 
@@ -35,20 +52,20 @@ This process is called **addressing**.
 
 ## Random Access Memory (RAM)
 
-The term **Random Access Memory (RAM)** means that **any memory register can be accessed directly in the same amount of time**, regardless of:
+RAM allows the CPU to access **any memory location in the same amount of time**, regardless of where it is stored.
 
-- how large the memory is,
-- where the register is located.
+For example:
 
-For example, accessing address **5** takes the same time as accessing address **50,000**.
+- Accessing address **5**
+- Accessing address **50,000**
 
-This constant-time access is what makes RAM fast and efficient.
+Both take approximately the same time.
 
 ---
 
-# Logical View of Memory
+## Logical View of Memory
 
-Although memory is physically one continuous collection of registers, logically it is divided into two different areas:
+Although memory is physically one continuous block, logically it is divided into two parts:
 
 ```
 Memory
@@ -58,67 +75,48 @@ Memory
 └── Instruction Memory
 ```
 
-Each serves a different purpose.
-
 ---
 
-# Data Memory
+## Data Memory
 
-High-level programming languages use concepts such as:
+Data memory stores the program's data such as:
 
 - Variables
 - Arrays
 - Objects
 
-However, the hardware does not understand these abstractions.
-
-After compilation, all of these become **binary values stored in memory registers**.
-
-For example:
+Example:
 
 ```cpp
 int x = 10;
 ```
 
-might become
+After compilation:
 
 ```
 Address     Value
 100         10
 ```
 
-The variable `x` is simply represented by the value stored at memory address **100**.
+The variable `x` is simply the value stored at address **100**.
 
----
+### Reading Data
 
-## Reading Data
-
-To read data:
-
-1. Provide the memory address.
-2. Memory returns the value stored at that address.
+```
+Address → Memory → Value
+```
 
 Example:
 
 ```
 Address = 100
 
-Memory returns:
-
-10
+Value = 10
 ```
 
----
+### Writing Data
 
-## Writing Data
-
-To modify data:
-
-1. Provide the memory address.
-2. Provide the new value.
-3. The previous value is overwritten.
-
-Example:
+Writing replaces the old value with a new one.
 
 Before:
 
@@ -127,28 +125,20 @@ Address    Value
 100        10
 ```
 
-After writing `25`:
+After:
 
 ```
 Address    Value
 100        25
 ```
 
-The old value is replaced with the new one.
-
 ---
 
-# Instruction Memory
+## Instruction Memory
 
-Programs written in languages like C++, Java, or Python are first translated into **machine language instructions**.
-
-These instructions are stored as binary values inside an executable (binary) file.
+High-level programs are first compiled into **machine code**.
 
 Before execution:
-
-1. The executable is loaded from storage (SSD/HDD).
-2. Its machine instructions are copied into **instruction memory**.
-3. The CPU fetches and executes these instructions one by one.
 
 ```
 Source Code
@@ -163,89 +153,83 @@ Machine Code (Executable)
 Instruction Memory
       │
       ▼
-CPU executes instructions
+CPU Executes Instructions
 ```
+
+The CPU continuously fetches instructions from instruction memory.
 
 ---
 
-# Data Memory vs Instruction Memory
+## Data Memory vs Instruction Memory
 
 | Data Memory | Instruction Memory |
 |-------------|--------------------|
 | Stores program data | Stores program instructions |
-| Contains variables, arrays, objects | Contains machine language instructions |
-| Values change during execution | Instructions usually remain unchanged while running |
-| CPU reads and writes data | CPU mainly fetches instructions |
+| Contains variables, arrays, objects | Contains machine instructions |
+| Can change during execution | Usually remains unchanged while running |
 
 ---
 
-# Key Takeaways
-
-- Memory is a linear collection of addressable registers.
-- Every register has a unique address and stores one value.
-- Accessing a register using its address is called **addressing**.
-- RAM allows any register to be accessed in the same amount of time.
-- **Data memory** stores variables, arrays, objects, and other program data.
-- **Instruction memory** stores the machine instructions that the CPU executes.
-- Before a program runs, its executable is loaded into instruction memory, while its data is stored in data memory.
-````
-
-![alt text](CPU.png)
-
-
-````markdown
 # CPU (Central Processing Unit)
 
-The **CPU** is the brain of the computer. It executes program instructions by performing calculations, accessing memory, and deciding which instruction to execute next.
+<p align="center">
+  <img src="CPU.png" alt="CPU" width="650"/>
+</p>
+
+The **CPU** is the brain of the computer.
+
+It executes instructions by:
+
+- Performing calculations
+- Accessing memory
+- Controlling the execution of programs
 
 ---
 
-# Main Components of the CPU
+## Main Components
 
-## 1. Arithmetic Logic Unit (ALU)
+### 1. Arithmetic Logic Unit (ALU)
 
-The **ALU** performs all arithmetic and logical operations.
+The **ALU** performs arithmetic and logical operations.
 
 Examples:
-- Addition (`5 + 3`)
-- Subtraction
-- Bitwise AND/OR
-- Comparisons (`==`, `>`, `<`)
 
-Some operations can be implemented in hardware (faster but more expensive) or software (slower but cheaper).
+- Addition
+- Subtraction
+- Bitwise AND / OR
+- Comparisons
 
 ---
 
-## 2. Registers
+### 2. Registers
 
-Registers are **small, very fast memory locations** inside the CPU used to store temporary data.
-
-Common registers include:
+Registers are **small, high-speed memory locations** inside the CPU.
 
 | Register | Purpose |
 |----------|---------|
-| **Data Register** | Stores temporary values |
-| **Address Register** | Stores memory addresses |
-| **Program Counter (PC)** | Stores the address of the next instruction |
-| **Instruction Register (IR)** | Stores the current instruction being executed |
+| Data Register | Stores temporary values |
+| Address Register | Stores memory addresses |
+| Program Counter (PC) | Stores the next instruction address |
+| Instruction Register (IR) | Stores the current instruction |
 
 ---
 
-## 3. Control Unit
+### 3. Control Unit
 
-The **Control Unit** manages the execution of instructions.
+The **Control Unit** controls the execution of instructions.
 
 It:
-- Fetches an instruction from memory.
-- Decodes the instruction.
-- Sends control signals to the ALU, registers, and memory.
-- Ensures every component works together correctly.
+
+- Fetches instructions
+- Decodes instructions
+- Sends control signals
+- Coordinates the ALU, registers, and memory
 
 ---
 
-# Fetch-Execute Cycle
+## Fetch-Decode-Execute Cycle
 
-The CPU continuously repeats these steps:
+Every program runs by repeating these three steps.
 
 ```
 Fetch
@@ -257,51 +241,44 @@ Execute
 Repeat
 ```
 
-### Step 1: Fetch
-The CPU fetches the next instruction from **instruction memory**.
+### Fetch
 
-### Step 2: Decode
-The Control Unit decodes the instruction to understand what needs to be done.
+The CPU fetches the next instruction from instruction memory.
 
-### Step 3: Execute
-The required operation is performed using the ALU, registers, and memory.
+### Decode
 
-The **Program Counter (PC)** is then updated to point to the next instruction.
+The Control Unit determines what the instruction means.
+
+### Execute
+
+The ALU, registers, and memory perform the required operation.
+
+The Program Counter is then updated to the next instruction.
 
 ---
 
-# Key Takeaways
-
-- The **CPU** executes all program instructions.
-- The **ALU** performs arithmetic and logical operations.
-- **Registers** store temporary data and important addresses.
-- The **Control Unit** coordinates all CPU operations.
-- Every program runs using the **Fetch → Decode → Execute** cycle.
-````
-
 # Input and Output (I/O)
 
-Computers communicate with the outside world using **Input/Output (I/O) devices**.
+I/O devices allow the computer to communicate with the outside world.
 
 ### Examples
+
 - Keyboard
 - Mouse
 - Monitor
 - Printer
 - Speaker
 - Microphone
-- Storage devices
-- Network card
+- Storage Devices
+- Network Card
 
 ---
 
-# Memory-Mapped I/O
+## Memory-Mapped I/O
 
-Instead of handling every device differently, the computer treats each I/O device as a **special part of memory**.
+Instead of treating devices differently, the computer assigns each device a **special memory region** called a **memory map**.
 
-Each device is assigned a **memory map**, which is a dedicated area in memory.
-
-This allows the CPU to interact with devices just like it reads from or writes to normal memory.
+The CPU communicates with devices by simply reading from or writing to these memory locations.
 
 ```
 CPU
@@ -315,51 +292,63 @@ Memory
 
 ---
 
-# Input Device Example (Keyboard)
-
-The keyboard's memory map always reflects its current state.
+## Keyboard Example
 
 When a key is pressed:
-1. A binary code for that key is written to the keyboard's memory map.
-2. The CPU reads that value from memory.
 
 ```
-Press 'A'
-      │
-      ▼
+Press Key
+     │
+     ▼
 Keyboard Memory Map
-      │
-      ▼
-CPU reads the key
+     │
+     ▼
+CPU Reads the Value
 ```
+
+The keyboard writes the pressed key's binary code into its memory map.
 
 ---
 
-# Output Device Example (Screen)
-
-The screen continuously checks its memory map.
+## Screen Example
 
 When the CPU writes data to the screen's memory map:
-1. The corresponding pixels are updated.
-2. The display changes accordingly.
 
 ```
-CPU writes data
-      │
-      ▼
+CPU Writes Data
+       │
+       ▼
 Screen Memory Map
-      │
-      ▼
-Pixels on the screen change
+       │
+       ▼
+Pixels Update
 ```
+
+The monitor automatically updates the corresponding pixels.
 
 ---
 
-# Key Takeaways
+# Summary
 
-- **I/O devices** allow a computer to communicate with the outside world.
-- Each I/O device is assigned a **memory map** (a special memory area).
-- The CPU interacts with I/O devices by reading from or writing to their memory maps.
-- **Input devices** write data to memory for the CPU to read.
-- **Output devices** display or produce results based on the data written to their memory maps.
+| Component | Purpose |
+|-----------|---------|
+| **Memory** | Stores data and program instructions |
+| **CPU** | Executes instructions and performs computations |
+| **ALU** | Performs arithmetic and logical operations |
+| **Registers** | Store temporary data and addresses |
+| **Control Unit** | Controls instruction execution |
+| **Instruction Memory** | Stores machine instructions |
+| **Data Memory** | Stores variables and program data |
+| **Memory-Mapped I/O** | Allows the CPU to communicate with external devices through memory |
 
+---
+
+## Key Takeaways
+
+- Memory stores both **data** and **program instructions**.
+- The CPU executes instructions using the **Fetch → Decode → Execute** cycle.
+- Registers provide fast temporary storage inside the CPU.
+- The ALU performs arithmetic and logical operations.
+- The Control Unit coordinates all CPU activities.
+- Memory-mapped I/O allows the CPU to interact with devices like keyboards and screens by reading from and writing to memory.
+````
