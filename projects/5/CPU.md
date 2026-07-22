@@ -1,4 +1,3 @@
-````markdown
 # Computer Architecture
 
 This project explains the basic architecture of a computer, including **Memory**, **CPU**, and **Input/Output (I/O)**. These three components work together to execute every program.

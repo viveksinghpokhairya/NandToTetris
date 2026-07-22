@@ -32,5 +32,47 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
+    Not(in=instruction[15], out=isA);  // is the instruction A
+
+
+    //Setting the values in A register
+    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=AregisterIn);   //choose what value to set in A, @value or output of ALU 
+    And(a=instruction[15], b=instruction[5], out=isCWriteA);
+    Or(a=isA, b=isCWriteA, out=loadA);
+    ARegister(in=AregisterIn, load=loadA, out=AregisterOut, out[0..14]=addressM);
+
+
+
+    //Setting the values in D register
+    And(a=instruction[15], b=instruction[4], out=loadD);
+    DRegister(in=aluOut, load=loadD, out=DregisterOut);
+    
+
+    //Setting up the ALU
+    Mux16(a=AregisterOut, b=inM, sel=instruction[12], out=y);
+    ALU(x=DregisterOut, y=y, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=aluOut, out = outM, zr=isZero, ng=isNegative);
+    And(a=instruction[3], b=instruction[15], out=writeM);
+
+
+    // 1. Calculate strictly positive flag (> 0)
+    Not(in=isNegative, out=isNonNegative);
+    Not(in=isZero, out=isNotZero);
+    And(a=isNonNegative, b=isNotZero, out=greaterThanZero);
+
+    // 2. Check the 3 independent jump conditions
+    And(a=instruction[2], b=isNegative, out=jumpNeg);        // j1: < 0
+    And(a=instruction[1], b=isZero, out=jumpZero);           // j2: = 0
+    And(a=instruction[0], b=greaterThanZero, out=jumpPos);   // j3: > 0
+
+    // 3. Combine jump conditions (if ANY match)
+    Or(a=jumpNeg, b=jumpZero, out=jumpLE);
+    Or(a=jumpLE, b=jumpPos, out=anyJump);
+
+    // 4. Ensure jump only happens for C-instructions
+    And(a=instruction[15], b=anyJump, out=pcLoad);
+
+    // 5. Program Counter
+    PC(in=AregisterOut, load=pcLoad, inc=true, reset=reset, out[0..14]=pc);
+    
 	//// Replace this comment with your code.
 }
