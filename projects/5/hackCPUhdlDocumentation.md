@@ -1,6 +1,10 @@
 
 # Hack CPU Architecture Notes
 
+<p align="center">
+  <img src="HackArchitecture.png" alt="Computer Architecture" width="500"/>
+</p>
+
 ## 1. Instruction Decoding & The Divide-and-Conquer Strategy
 
 The Hack CPU processes 16-bit instructions. The Most Significant Bit (**MSB**, `instruction[15]`) determines the instruction type:
@@ -55,6 +59,11 @@ $$\text{A-Input} = \text{Mux16}(\text{instruction}, \text{aluOut}, \text{sel}=\t
 
 ## 3. ALU Configuration
 
+
+<p align="center">
+  <img src="ALUinput.png" alt="Computer Architecture" width="600"/>
+</p>
+
 * **`X` Input:** Driven exclusively by the **D-register**.
 * **`Y` Input:** Toggled by the **`a`-bit** (`instruction[12]`):
 * `a = 0`: Operates on the **A-register** value.
@@ -67,6 +76,10 @@ $$\text{A-Input} = \text{Mux16}(\text{instruction}, \text{aluOut}, \text{sel}=\t
 ---
 
 ## 4. Jump & Program Counter (PC) Logic
+
+<p align="center">
+  <img src="PC.png" alt="Computer Architecture" width="400"/>
+</p>
 
 To perform a jump (branching), the target address is **always pre-loaded into the A-register**.
 

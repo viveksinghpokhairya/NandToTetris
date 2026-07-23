@@ -4,6 +4,10 @@ Let's translate this engineering text into a clear, visual blueprint by breaking
 
 ---
 
+<p align="center">
+  <img src="CPU.png" alt="Computer Architecture" width="700"/>
+</p>
+
 ## 🛠️ Rule 1: The Execution Split (A-Instruction vs. C-Instruction)
 
 When a 16-bit instruction enters the CPU, the chip checks the very first bit (the opcode) to decide which path the data should take.

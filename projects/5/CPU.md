@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f4cc09a22917f666c719e56327a2ad92adc2f3d
 # Computer Architecture
 
 This project explains the basic architecture of a computer, including **Memory**, **CPU**, and **Input/Output (I/O)**. These three components work together to execute every program.
